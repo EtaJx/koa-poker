@@ -4,6 +4,14 @@ const koa = require('koa');
 const app = new koa();
 const AutoRouter = require('./lib/autoCreateRouter');
 
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const config = require('./config/webpack.config.js');
+const compiler = webpack(config);
+
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}));
 new AutoRouter({
   app
 }).init()
