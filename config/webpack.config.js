@@ -1,7 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const currentPath = path.resolve(__dirname, '..');
+const distPath = path.resolve(currentPath, 'dist');
+console.log(distPath);
 module.exports = {
   mode: 'development',
   entry: {
@@ -33,7 +35,7 @@ module.exports = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    path: distPath,
     publicPath: '/'
   }
 };

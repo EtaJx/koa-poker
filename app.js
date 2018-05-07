@@ -3,13 +3,14 @@ const cheerio = require('cheerio');
 const koa = require('koa');
 const app = new koa();
 const AutoRouter = require('./lib/autoCreateRouter');
+const koaWebpackDevMiddleware = require('./lib/koaWebpackDevMiddleware.js');
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const config = require('./config/webpack.config.js');
 const compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler, {
+app.use(koaWebpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 new AutoRouter({
