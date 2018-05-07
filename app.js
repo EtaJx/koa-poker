@@ -1,18 +1,58 @@
 const request = require('request');
 const cheerio = require('cheerio');
+const path = require('path');
+const fs = require('fs');
 const koa = require('koa');
 const app = new koa();
 const AutoRouter = require('./lib/autoCreateRouter');
-const koaWebpackDevMiddleware = require('./lib/koaWebpackDevMiddleware.js');
+// const koaWebpackDevMiddleware = require('./lib/koaWebpackDevMiddleware.js');
+const koaWebpack = require('koa-webpack');
+const convert = require('express-to-koa');
 
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const koaWebpackHotMiddleware = require('koa-webpack-hot-middleware');
 const config = require('./config/webpack.config.js');
 const compiler = webpack(config);
 
-app.use(koaWebpackDevMiddleware(compiler, {
+app.use(convert(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
-}));
+})));
+app.use(koaWebpackHotMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}))
+compiler.hooks.emit.tapAsync({
+  name: 'createHtmlFile',
+}, function (compilation, cb) {
+  for (let filename in compilation.assets) {
+    if (filename.endsWith('.html')) {
+      let filepath = path.resolve(__dirname, filename)
+      console.log(filepath)
+      let dirname = path.dirname(filepath)
+      console.log(fs.existsSync(dirname))
+      console.log(dirname)
+      // console.lgo(fs.existsSync(dirname))
+      // if (!fs.existsSync(dirname)) {
+        // touch(filename)
+      // }
+      fs.writeFileSync(filepath, compilation.assets[filename].source())
+    }
+  }
+  cb();
+})
+// compiler.hooks('emit', function (compilation, cb) {
+//   for (let filename in compilation.assets) {
+//     if (filename.endsWith('.html')) {
+//       let filepath = path.resolve(__dirname, filename)
+//       let dirname = path.dirname(filepath)
+//       if (!fs.existsSync(dirname)) {
+//         mkdir('-p', dirname)
+//       }
+//       fs.writeFile(filepath, compilation.assets[filename].source())
+//     }
+//   }
+//   cb();
+// })
 new AutoRouter({
   app
 }).init()

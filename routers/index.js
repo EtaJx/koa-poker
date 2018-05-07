@@ -7,7 +7,7 @@ const router = new Router({
 
 router.get('/', (ctx, next) => {
   ctx.response.type = 'html';
-  ctx.response.body = fs.createReadStream('./dist/index.html');
+  ctx.response.body = fs.createReadStream('./index.html');
 });
 
 module.exports = router;
