@@ -1,3 +1,8 @@
 import Header from './Header.vue';
+import Vue from 'vue';
 
-module.exports = Header
+new Vue({
+  el: '#app',
+  components: { Header },
+  template: '<Header />'
+})

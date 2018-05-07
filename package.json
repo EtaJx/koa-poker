@@ -6,7 +6,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "koa": "^2.5.0",
-    "request": "^2.85.0"
+    "request": "^2.85.0",
+    "vue": "^2.5.16"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
