@@ -25,21 +25,16 @@ compiler.hooks.emit.tapAsync({
   name: 'createHtmlFile',
 }, function (compilation, cb) {
   for (let filename in compilation.assets) {
-    if (filename.endsWith('.html')) {
-      let filepath = path.resolve(__dirname, filename)
-      console.log(filepath)
-      let dirname = path.dirname(filepath)
-      console.log(fs.existsSync(dirname))
-      console.log(dirname)
-      // console.lgo(fs.existsSync(dirname))
-      // if (!fs.existsSync(dirname)) {
-        // touch(filename)
-      // }
-      fs.writeFileSync(filepath, compilation.assets[filename].source())
-    }
+    let filepath = path.resolve(__dirname, `./dist/${filename}`)
+    let dirname = path.dirname(filepath)
+    // console.lgo(fs.existsSync(dirname))
+    // if (!fs.existsSync(dirname)) {
+    // touch(filename)
+    // }
+    fs.writeFileSync(filepath, compilation.assets[filename].source())
   }
   cb();
-})
+});
 // compiler.hooks('emit', function (compilation, cb) {
 //   for (let filename in compilation.assets) {
 //     if (filename.endsWith('.html')) {

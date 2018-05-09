@@ -13,7 +13,8 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'demo'
+      title: 'demo',
+      template: './index.html'
     })
   ],
   module: {
@@ -32,6 +33,11 @@ module.exports = {
         loader: 'vue-loader'
       }
     ]
+  },
+  resolve: {
+    alias: {
+      'vue': 'vue/dist/vue.js'
+    }
   },
   output: {
     filename: '[name].bundle.js',
